@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> <!--skip-->
+        <title>EasyRTC Demo: Simple Video+Audio</title>
+        <!--
+		<link rel="stylesheet" type="text/css" href="/easyrtc/easyrtc.css" />
+		-->
+        <!--hide-->
+        <!--
+		<link rel="stylesheet" type="text/css" href="css/landing.css" />
+	
+        <link rel="stylesheet" type="text/css" href="css/demo_audio_video_simple.css" />
+		-->
+	
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+	
+		<!-- Prettify Code -->
+        <script type="text/javascript" src="js/prettify/prettify.js"></script>
+        <script type="text/javascript" src="js/prettify/loadAndFilter.js"></script>
+        <script type="text/javascript" src="js/prettify/jquery.min.js"></script>
+        <!--
+		<link rel="stylesheet" type="text/css" href="js/prettify/prettify.css" />
+		-->
+
+        <!--show-->
+        <!-- Assumes global locations for socket.io.js and easyrtc.js -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
+        <script type="text/javascript" src="js/demo_audio_video_simple.js"></script>
+		<style type="text/css">
+		
+		
+		
+		
+		
+	
+
+		</style>
+    </head>
+    <body   onload="connect();">
+        <!--hide-->
+	<!--
+        <div id="container" style="border : 2px solid red">
+       -->
+			<!--
+			<div id="header">
+                <a href="index.html"><img id="logo_easyrtc" src="images/easyrtc_logo.png" alt="EasyRTC" style="" /></a>
+            </div>
+			<div id="menu"><a class="menu_link" href="index.html"><div class="menu_item">Local Demos</div></a><a class="menu_link" href="https://github.com/priologic/easyrtc/tree/master/docs"><div class="menu_item">Documentation</div></a><a class="menu_link" href="https://easyrtc.com/forum/"><div class="menu_item">Support: EasyRTC Forums</div></a><a class="menu_link" href="http://www.easyrtc.com/"><div class="menu_item">EasyRTC.com</div></a></div>
+            -->
+			<!--
+			<div id="main">
+            -->   
+           
+               <!-- <h2>The Demo</h2> -->
+                <!--show-->
+                
+			
+					
+				<div id "videos"   >
+				
+				 
+				<video id="selfVideo"   autoplay muted class=" active">
+						
+				</video>
+
+				<video id="callerVideo" autoplay class=" active"></video> 
+				
+				
+				</div>
+			<div  style="position:absolute;bottom:0px;right:20px;z-index:3;" id="connectControls">
+                  
+						<div style="visibility:hidden" id="iam">Connessione in corso...</div>
+                        <br />
+                        <strong>Connetti  </strong>
+                    
+						<div  id="otherClients"></div>
+						
+                 </div>
+				 <div style="position:absolute;top:0%;left:0px;z-index:3;width:120px;height:120px;">
+				 <button onclick="toggleVideo()" id="muteVideo" style = "position:absolute;top:0;left:0px;z-index:3;width:60px;height:50px;" > 
+				 <div id="icoVideo" style =" width:100%; height:100%; position:relative;background:rgba(242,242,242,0) url(video.png) center no-repeat;background-size : 60%; border:0px solid;" ></div></button>
+				 <button onclick="toggleAudio()"  id="muteAudio" style = "position:absolute;top:0;left:65px;z-index:3;width:60px;height:50px;" onclick="muteAudio()">
+				 <div id="icoAudio" style =" width:100%; height:100%; position:relative;background:rgba(242,242,242,0) url(audio.png) center no-repeat;background-size : 60%; border:0px solid;" ></div></button>
+				 </div>	
+				 
+				 
+				 
+				 
+				<!-- 
+				 <button style = "position:absolute;top:20px;right:180px;z-index:3;"  onclick="easyrtc.enableMicrophone(false);"> mute mike</button>
+				 <button style = "position:absolute;top:20px;right:20px;z-index:3;" onclick="easyrtc.enableMicrophone(true);"> unmute mike</button>
+				<button style = "position:absolute;top:20px;right:240px;z-index:3;"  onclick="easyrtc.enableCamera(false);"> mute video</button>
+				 <button style = "position:absolute;top:20px;right:320px;z-index:3;" onclick="easyrtc.enableCamera(true);"> unmute video</button>
+				-->
+				<!--
+				<button id="videoCallButton"  disabled value="Video Call" style = "position:absolute;bottom:20px;right:180px;z-index:3;" >VideoCall</button>
+				<button id="endCallButton"  disabled value="End Call" style = "position:absolute;bottom:20px;right:20px;z-index:3;">EndCall</button>
+				-->
+							
+				<!--
+				<div id="demoContainer">
+                    <div id="connectControls">
+                        <div id="iam">Not yet connected...</div>
+                        <br />
+                        <strong>Connected users:</strong>
+                        <div id="otherClients"></div>
+                    </div>
+        
+					<div id="videos">
+                 
+						<video autoplay="autoplay" class="easyrtcMirror" id="selfVideo" muted="muted" volume="0" >
+						</video>
+                        
+						<div style="position:relative;float:left;">
+							<video autoplay="autoplay" id="callerVideo"></video>
+                        </div>
+                    
+                    </div>
+				
+                </div>
+				-->
+                <!--hide-->
+                <!--
+				<br style="clear:both;" />
+                <hr />
+				-->	
+               
+
+                
+
+
+               
+                <!-- End Main Content -->
+        <!--
+				</div>
+         --> 
+		 <!--
+        </div>
+		-->
+        <!--show-->
+		
+		<script type="text/javascript">
+		var audio_on = true;
+			var video_on = true;
+			
+			function toggleAudio() {
+			    if(audio_on) {
+					
+					ico_audio = document.getElementById('icoAudio');
+					ico_audio.style.background = " rgba(242,242,242,0) url(audio_off.png) center no-repeat";
+					ico_audio.style.backgroundSize = "60%";
+					audio_on = false;
+					easyrtc.enableMicrophone(false);
+				}
+				else {
+					
+					ico_audio = document.getElementById('icoAudio');
+					ico_audio.style.background = " rgba(242,242,242,0) url(audio.png) center no-repeat";
+					ico_audio.style.backgroundSize = "60%";
+					audio_on = true;
+					easyrtc.enableMicrophone(true);
+				}
+				
+			}
+			function toggleVideo() {
+			    if(video_on){
+					ico_video = document.getElementById('icoVideo');
+					ico_video.style.background = " rgba(242,242,242,0) url(video_off.png) center no-repeat";
+					ico_video.style.backgroundSize = "60%";
+					video_on = false;
+					easyrtc.enableCamera(false);
+				}
+				else {
+					ico_video = document.getElementById('icoVideo');
+					ico_video.style.background = " rgba(242,242,242,0) url(video.png) center no-repeat";
+					ico_video.style.backgroundSize = "60%";
+					video_on = true;
+					easyrtc.enableCamera(true);
+				}
+				
+			}
+		
+		
+		
+		function toggleFullscreen(elem) {
+		  
+		  
+		  elem = document.getElementById("videos");
+		  /*
+		  if (!document.fullscreenElement && !document.mozFullScreenElement &&
+			!document.webkitFullscreenElement && !document.msFullscreenElement) {
+			if (elem.requestFullscreen) {
+			  elem.requestFullscreen();
+			} else if (elem.msRequestFullscreen) {
+			  elem.msRequestFullscreen();
+			} else if (elem.mozRequestFullScreen) {
+			  elem.mozRequestFullScreen();
+			} else if (elem.webkitRequestFullscreen) {
+			  elem.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+			}
+		  } else {
+		  */
+			if (document.exitFullscreen) {
+			  document.exitFullscreen();
+			} else if (document.msExitFullscreen) {
+			  document.msExitFullscreen();
+			} else if (document.mozCancelFullScreen) {
+			  document.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) {
+			  document.webkitExitFullscreen();
+			}
+		  //}
+		  
+		}
+		
+		
+	</script>
+    </body>
+	
+</html>

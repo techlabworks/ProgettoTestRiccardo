@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Live</title>
+    <script type="text/javascript">
+        function forward(){ window.location = "/demos/";}
+    </script>
+</head>
+<body onload="pippo()">
+    <h1>ATTENDERE...</h1>
+<!--
+    <h2>This is your server's Web Root</h2>
+
+    <p>This is the easiest location to put your own static html files for developing WebRTC applications.</p>
+
+    <p>In the meantime we'll forward you to <a href="/demos/">the EasyRTC Demo page</a>...</p>
+-->
+    <img src="hospitalLiveLogo2.png" width="400" height="60" alt="Powered by TechlabWorks s.r.l.">
+	<script>
+		function pippo() {
+		
+			var url_string = window.location.href;
+			var url = new URL(url_string);
+			var r = url.searchParams.get("room");
+			var id_videochiamata = url.searchParams.get("id");
+			location.href = "https://alberto-pc/web_hospitallive/main.php?room="+r+"&id="+id_videochiamata+"#/videochiamata";		}
+	</script> 
+</body>
+</html>
